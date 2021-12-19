@@ -5,6 +5,7 @@ let height = 600
 let ctx = canvas.getContext("2d")
 let blockSize = 30
 let keys = []
+let items = []
 
 // assigning widht and height values to canvas
 canvas.width = width
@@ -25,6 +26,24 @@ wall.src = "images/zed.png"
 
 let hero = new Image()
 hero.src = "images/pernicek_dolu.png"
+
+let darek2 = new Image()
+darek2.src = "images/darek2.png"
+
+let darek3 = new Image()
+darek3.src = "images/darek3.png"
+
+let hulka = new Image()
+hulka.src = "images/hulka.png"
+
+let hvezda = new Image()
+hvezda.src = "images/hvezda.png"
+
+let kapr = new Image()
+kapr.src = "images/kapr.png"
+
+let ponozky = new Image()
+ponozky.src = "images/ponozky.png"
 
 // board
 let board = [
@@ -59,7 +78,56 @@ function generateBoard() {
             }
         }
     }
+
+    for (let i = 0; i < items.length; i++) {
+        ctx.drawImage(
+            items[i].imageObject,
+            items[i].x * blockSize,
+            items[i].y * blockSize,
+            blockSize,
+            blockSize
+        )
+    }
 }
+
+// add items to board
+function createitems() {
+    items.push({
+      x: 1,
+      y: 1,
+      imageObject: darek2
+    })
+  
+    items.push({
+      x: 1,
+      y: 15,
+      imageObject: darek3
+    })
+  
+    items.push({
+      x: 14,
+      y: 12,
+      imageObject: hulka
+    })
+  
+    items.push({
+      x: 15,
+      y: 18,
+      imageObject: hvezda
+    })
+  
+    items.push({
+      x: 5,
+      y: 11,
+      imageObject: kapr
+    })
+  
+    items.push({
+      x: 15,
+      y: 1,
+      imageObject: ponozky
+    })
+  }
 
 function draw() {
     ctx.clearRect(player.x * blockSize, player.y * blockSize, blockSize, blockSize)
@@ -68,6 +136,11 @@ function draw() {
     movement()
 
     ctx.drawImage(hero,player.x * blockSize, player.y * blockSize, blockSize, blockSize)
+}
+
+function startGame() {
+    createitems()
+    draw()
 }
 
 function movement() {
@@ -102,7 +175,7 @@ function canMove(x, y) {
 }
 
 // eventlistener
-window.addEventListener("load", draw)
+window.addEventListener("load", startGame)
 
 // move eventlistener
 document.body.addEventListener("keydown", function(e) {
