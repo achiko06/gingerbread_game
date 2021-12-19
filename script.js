@@ -71,29 +71,34 @@ function draw() {
 }
 
 function movement() {
-    if (keys[39]) {
+    if (keys[39] && canMove(player.x + 1, player.y)) {
         // arrow right
         hero.src = "images/pernicek_doprava.png"
         player.x++
     }
 
-    if (keys[37]) {
+    if (keys[37] && canMove(player.x - 1, player.y)) {
         // arrow left
         hero.src = "images/pernicek_doleva.png"
         player.x--
     }
 
-    if (keys[38]) {
+    if (keys[38] && canMove(player.x, player.y - 1)) {
         // arrow up
         hero.src = "images/pernicek_nahoru.png"
         player.y--
     }
 
-    if (keys[40]) {
+    if (keys[40] && canMove(player.x, player.y + 1)) {
         // arrow down
         hero.src = "images/pernicek_dolu.png"
         player.y++
     }
+}
+
+// not allowed to move through walls
+function canMove(x, y) {
+    return (y >= 0 && y < board.length && x >= 0 && x < board[y].length && board[y][x] != 1)
 }
 
 // eventlistener
