@@ -4,6 +4,7 @@ let height = 600
 // blocksize
 let ctx = canvas.getContext("2d")
 let blockSize = 30
+let keys = []
 
 // assigning widht and height values to canvas
 canvas.width = width
@@ -61,8 +62,38 @@ function generateBoard() {
 }
 
 function draw() {
+    ctx.clearRect(player.x * blockSize, player.y * blockSize, blockSize, blockSize)
+
     generateBoard()
-        ctx.drawImage(hero,player.x * blockSize, player.y * blockSize, blockSize, blockSize)
+    movement()
+
+    ctx.drawImage(hero,player.x * blockSize, player.y * blockSize, blockSize, blockSize)
+}
+
+function movement() {
+    if (keys[39]) {
+        // arrow right
+        hero.src = "images/pernicek_doprava.png"
+        player.x++
+    }
+
+    if (keys[37]) {
+        // arrow left
+        hero.src = "images/pernicek_doleva.png"
+        player.x--
+    }
+
+    if (keys[38]) {
+        // arrow up
+        hero.src = "images/pernicek_nahoru.png"
+        player.y--
+    }
+
+    if (keys[40]) {
+        // arrow down
+        hero.src = "images/pernicek_dolu.png"
+        player.y++
+    }
 }
 
 // eventlistener
