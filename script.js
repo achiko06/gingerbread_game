@@ -170,7 +170,7 @@ function draw() {
 }
 
 function startGame() {
-    game.time = 60
+    game.time = 180
     createitems()
     draw()
     timer()
