@@ -17,8 +17,11 @@ let player = {
     y: 1
 }
 
-
-
+// game score
+let game = {
+    scoreElement: document.getElementById("score"),
+    score: 0
+}
 
 // images
 let wall = new Image()
@@ -44,6 +47,9 @@ kapr.src = "images/kapr.png"
 
 let ponozky = new Image()
 ponozky.src = "images/ponozky.png"
+
+let rukavice = new Image()
+rukavice.src = "images/rukavice.png"
 
 // board
 let board = [
@@ -90,6 +96,13 @@ function generateBoard() {
     }
 }
 
+//increase score
+function increaseScore() {
+    game.score++
+    game.scoreElement.textContent = '${game.score}/6'
+}
+
+
 // add items to board
 function createitems() {
     items.push({
@@ -127,13 +140,29 @@ function createitems() {
       y: 1,
       imageObject: ponozky
     })
+
+    items.push({
+        x: 7,
+        y: 18,
+        imageObject: rukavice
+      })
   }
+
+function collect() {
+    for (let i = 0; i < items.length; i++) {
+        if (player.x == items[i].x && player.y == items[i].y) {
+            items.splice(i, 1)
+            increaseScore()
+        }
+    }
+}
 
 function draw() {
     ctx.clearRect(player.x * blockSize, player.y * blockSize, blockSize, blockSize)
 
     generateBoard()
     movement()
+    collect()
 
     ctx.drawImage(hero,player.x * blockSize, player.y * blockSize, blockSize, blockSize)
 }
