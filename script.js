@@ -19,8 +19,10 @@ let player = {
 
 // game score
 let game = {
+    timeElement: document.getElementById("time"),
     scoreElement: document.getElementById("score"),
-    score: 0
+    score: 0,
+    time: 0
 }
 
 // images
@@ -99,7 +101,7 @@ function generateBoard() {
 //increase score
 function increaseScore() {
     game.score++
-    game.scoreElement.textContent = '${game.score}/6'
+    game.scoreElement.textContent = `${game.score}/7`
 }
 
 
@@ -168,8 +170,10 @@ function draw() {
 }
 
 function startGame() {
+    game.time = 60
     createitems()
     draw()
+    timer()
 }
 
 function movement() {
@@ -196,6 +200,30 @@ function movement() {
         hero.src = "images/pernicek_dolu.png"
         player.y++
     }
+}
+
+// timer
+function timer() {
+    function startTimer(duration, display) {
+        let timer = duration,
+            minutes,
+            seconds
+        
+        setInterval(function() {
+            minutes = parseInt(timer / 60, 10)
+            seconds = parseInt(timer % 60, 10)
+
+            minutes = minutes < 10 ? "0" + minutes : minutes
+            seconds = seconds < 10 ? "0" + seconds : seconds
+
+            display.innerText = minutes + ":" + seconds
+
+            if (--timer < 0) {
+                timer = duration
+            }
+        }, 1000)
+    }
+    startTimer(game.time, game.timeElement)
 }
 
 // not allowed to move through walls
