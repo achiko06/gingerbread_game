@@ -21,6 +21,8 @@ let player = {
 let game = {
     timeElement: document.getElementById("time"),
     scoreElement: document.getElementById("score"),
+    endElement: document.querySelector("#end"),
+    videoElement: document.querySelector("#end video"),
     score: 0,
     time: 0
 }
@@ -52,6 +54,9 @@ ponozky.src = "images/ponozky.png"
 
 let rukavice = new Image()
 rukavice.src = "images/rukavice.png"
+
+// Audio
+// figure out how to add audio on start here
 
 // board
 let board = [
@@ -102,6 +107,20 @@ function generateBoard() {
 function increaseScore() {
     game.score++
     game.scoreElement.textContent = `${game.score}/7`
+}
+
+// end game logic
+function endGame(type) {
+    if (type === "win") {
+        game.videoElement.src = "animations/codemas vyhra.mp4"
+    }
+
+    if (type === "loss") {
+        game.videoElement.src = "animations/codemas prohra.mp4"
+    }
+
+    canvas.style.display = "none"
+    game.endElement.style.display = "block"
 }
 
 
@@ -170,7 +189,7 @@ function draw() {
 }
 
 function startGame() {
-    game.time = 180
+    game.time = 60
     createitems()
     draw()
     timer()
@@ -209,12 +228,24 @@ function timer() {
             minutes,
             seconds
         
-        setInterval(function() {
+        let time = setInterval(function() {
             minutes = parseInt(timer / 60, 10)
             seconds = parseInt(timer % 60, 10)
 
             minutes = minutes < 10 ? "0" + minutes : minutes
             seconds = seconds < 10 ? "0" + seconds : seconds
+
+            // win
+            if (game.score === 7) {
+                endGame("win")
+                clearInterval(time)
+            }
+
+            // loss
+            if (timer === 0) {
+                endGame("loss")
+                clearInterval(time)
+            }
 
             display.innerText = minutes + ":" + seconds
 
